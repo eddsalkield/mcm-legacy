@@ -1,0 +1,24 @@
+#!/bin/sh
+
+: ${MCM_LIB:=$(dirname "$0")/../share/mcm}
+. "$MCM_LIB/mcm.sh"
+
+no_directories=true
+for dir in $DOTFILES_DIR/*; do
+	echo "Updating $dir"
+	if [ ! -d "$dir" ]; then
+		continue
+	fi
+
+	no_directories=false
+
+	name="$(basename $dir)" 
+	name_dash="$(echo "$name" | tr "-" "/")"
+	git -C "$dir" pull "$REPO_PREFIX/$name"
+	scm -d "$DOTFILES_DIR" -t "$HOME" install "$name"
+done
+
+if $no_directories; then
+	echo "Must run mcm-install to install repositories first."
+	exit 1
+fi

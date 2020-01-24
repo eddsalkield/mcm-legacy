@@ -1,0 +1,31 @@
+#!/bin/sh
+
+: ${MCM_LIB:=$(dirname "$0")/../share/mcm}
+. "$MCM_LIB/mcm.sh"
+
+if [ -z "$@" ]; then
+	echo "Usage: mcm-remove REPOS"
+	echo "where REPOS is a space-separated list of installed repositories to remove"
+fi
+
+for dir in "$@"; do
+	dir_dash="$(echo $dir | tr "/" ":")"
+	if [ -z "$dir" ]; then
+		continue
+	fi
+	dest="$DOTFILES_DIR/$dir_dash"
+
+	if [ ! -d "$dest" ]; then
+		echo "$dir not installed"
+		continue
+	fi
+
+	scm -d "$DOTFILES_DIR" -t "$HOME" remove "$dir_dash"
+	if [ "$?" -ne "0" ]; then
+		echo "Failed to remove $dir"
+		continue
+	fi
+
+	echo "Deleting directory $dest"
+	rm -rf "$dest"
+done
