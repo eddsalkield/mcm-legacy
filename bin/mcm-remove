@@ -14,14 +14,14 @@ for dir in "$@"; do
 	if [ -z "$dir" ]; then
 		continue
 	fi
-	dest="$DOTFILES_DIR/$dir_dash"
+	dest="$MCM_DOTFILES_DIR/$dir_dash"
 
 	if [ ! -d "$dest" ]; then
 		echo "$dir not installed"
 		continue
 	fi
 
-	scm -d "$DOTFILES_DIR" -t "$HOME" remove "$dir_dash"
+	scm -d "$MCM_DOTFILES_DIR" -t "$HOME" remove "$dir_dash"
 	if [ "$?" -ne "0" ]; then
 		echo "Failed to remove $dir"
 		continue

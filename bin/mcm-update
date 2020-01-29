@@ -5,7 +5,7 @@ set -e
 . "$MCM_LIB/mcm.sh"
 
 no_directories=true
-for dir in $DOTFILES_DIR/*; do
+for dir in $MCM_DOTFILES_DIR/*; do
 	echo "Updating $dir"
 	if [ ! -d "$dir" ]; then
 		continue
@@ -16,7 +16,7 @@ for dir in $DOTFILES_DIR/*; do
 	name="$(basename $dir)" 
 	name_dash="$(echo "$name" | tr ":" "/")"
 	git -C "$dir" pull "$REPO_PREFIX/$name_dash"
-	scm -fy -d "$DOTFILES_DIR" -t "$HOME" install "$name"
+	scm -fy -d "$MCM_DOTFILES_DIR" -t "$HOME" install "$name"
 done
 
 if $no_directories; then

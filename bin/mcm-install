@@ -14,7 +14,7 @@ fi
 touched=false
 for var in "$@"; do
 	var_dash="$(echo $var | tr "/" ":")"
-	dest="$DOTFILES_DIR/$var_dash"
+	dest="$MCM_DOTFILES_DIR/$var_dash"
 
 	if [ -e "$dest" ]; then
 		echo "$var already installed"
